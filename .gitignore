@@ -1,0 +1,59 @@
+# Ignore object files and compiled binaries
+*.o
+*.a
+*.so
+*.out
+*.exe
+
+# Ignore debugging files
+*.log
+*.debug
+*.dSYM/
+
+# Ignore temporary or editor-specific files
+*~
+*.swp
+*.tmp
+*.bak
+*.old
+
+# Ignore build directories
+/build/
+/bin/
+/obj/
+/dist/
+
+# Ignore dependency files
+*.d
+*.dep
+
+# Ignore IDE-specific files
+# Visual Studio
+*.vscode
+*.vcxproj*
+*.sln
+*.user
+
+# Code::Blocks
+*.cbp
+*.layout
+
+# Eclipse
+.cproject
+.project
+
+# Xcode
+*.xcworkspace/
+*.xcuserdata/
+*.xcodeproj/
+
+# CLion/JetBrains
+.idea/
+cmake-build-debug/
+
+# Miscellaneous
+*.DS_Store
+Thumbs.db
+
+#SDL2 Library
+/SDL2/
