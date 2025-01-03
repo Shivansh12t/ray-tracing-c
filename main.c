@@ -6,6 +6,7 @@
 #define W_HEIGHT 600
 
 #define COLOR_WHITE 0xffffffff
+#define COLOR_BLACK 0x00000000
 
 struct Circle{
     double x;
@@ -33,13 +34,30 @@ int main(int argc, char* argv[]){
 
     SDL_Surface* surface = SDL_GetWindowSurface(window);
 
-    // SDL_Rect rect = (SDL_Rect) {200,200,200,200};
-    // SDL_FillRect(surface, &rect, COLOR_WHITE);
-
     struct Circle circle = (struct Circle){200, 200, 80};
-    FillCircle(surface, circle, COLOR_WHITE);
+    SDL_Rect erase_rect = (SDL_Rect){0,0,W_WIDTH, W_HEIGHT};
+    
+    int simulation_running = 1;
+    SDL_Event event;
 
-    SDL_UpdateWindowSurface(window);
+    while ( simulation_running ){
+
+        // if you dont do this, you wont be able to quit the application !
+        while (SDL_PollEvent(&event)){
+            if (event.type == SDL_QUIT){
+                simulation_running = 0;
+            }
+            if (event.type == SDL_MOUSEMOTION && event.motion.state != 0){
+                circle.x = event.motion.x;
+                circle.y = event.motion.y;
+            }
+        }
+        SDL_FillRect(surface, &erase_rect, COLOR_BLACK);
+        FillCircle(surface, circle, COLOR_WHITE);
+
+        SDL_UpdateWindowSurface(window);
+        SDL_Delay(10);
+    }
 
     SDL_Delay(5000);
     return 0;
