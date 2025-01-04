@@ -1,1 +1,1 @@
-g++ -ISDL2/include -LSDL2/lib -o out main.c -lmingw32 -lSDL2main -lSDL2
+g++ -ISDL2/include -LSDL2/lib -o out main.c -lmingw32 -lSDL2main -lSDL2 -lm
