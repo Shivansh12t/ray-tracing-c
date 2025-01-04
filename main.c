@@ -7,7 +7,7 @@
 
 #define COLOR_WHITE 0xffffffff
 #define COLOR_BLACK 0x00000000
-#define COLOR_GRAY 0xefefefef
+#define COLOR_RAY 0xffd43b
 
 #define RAYS_NUMBER 100
 
@@ -41,7 +41,7 @@ void generateRays(struct Circle circle, struct Ray rays[RAYS_NUMBER]){
         double angle = ( (double) i / RAYS_NUMBER ) * M_PI * 2;
         struct Ray ray = {circle.x, circle.y, angle};
         rays[i] = ray;
-        printf("angle : %f\n", angle);
+        // printf("angle : %f\n", angle);
     }
 }
 
@@ -52,8 +52,9 @@ void FillRays(SDL_Surface* surface, struct Ray rays[RAYS_NUMBER], Uint32 color){
     int object_hit = 0;
     double step = 0.5;
     for (int i = 0; i < RAYS_NUMBER; i++){
+        double tan_angle = tan(rays[i].angle);
         for (double x = 0; x < W_WIDTH; x += step){
-            double y = rays[i].y_start - tan(rays[i].angle) * (x - rays[i].x_start);
+            double y = rays[i].y_start - tan_angle * (x - rays[i].x_start);
             if (!object_hit && y < W_HEIGHT){
                 SDL_Rect pixel = (SDL_Rect) {x,y,1,1};
                 SDL_FillRect(surface, &pixel, color);
@@ -75,9 +76,12 @@ void FillRays_HD(SDL_Surface* surface, struct Ray rays[RAYS_NUMBER], Uint32 colo
         double x_draw = ray.x_start;
         double y_draw = ray.y_start;
 
+        double cos_angle = cos(ray.angle);
+        double sin_angle = sin(ray.angle);
+
         while ( !end_of_screen && !object_hit){
-            x_draw += step*cos(ray.angle);
-            y_draw += step*sin(ray.angle);
+            x_draw += step*cos_angle;
+            y_draw += step*sin_angle;
 
             SDL_Rect pixel = (SDL_Rect) {x_draw,y_draw,1,1};
             SDL_FillRect(surface, &pixel, color);
@@ -132,7 +136,7 @@ int main(int argc, char* argv[]){
         FillCircle(surface, circle, COLOR_WHITE);
 
         FillCircle(surface, shadow_circle, COLOR_WHITE);
-        FillRays_HD(surface, rays, COLOR_GRAY, shadow_circle);
+        FillRays_HD(surface, rays, COLOR_RAY, shadow_circle);
 
         move_shadow_circle(&shadow_circle, &object_speed);
 
