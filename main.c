@@ -92,6 +92,11 @@ void FillRays_HD(SDL_Surface* surface, struct Ray rays[RAYS_NUMBER], Uint32 colo
     }
 }
 
+void move_shadow_circle(struct Circle* shadow_circle, int* obj_speed){
+    shadow_circle->y += (double) *obj_speed;
+    if (shadow_circle->y < 0.0 || shadow_circle->y >= W_HEIGHT) *obj_speed = -*obj_speed;
+}
+
 int main(int argc, char* argv[]){
     SDL_Init(SDL_INIT_VIDEO);
 
@@ -107,6 +112,7 @@ int main(int argc, char* argv[]){
     generateRays(circle, rays);
 
     int simulation_running = 1;
+    int object_speed = 1;
     SDL_Event event;
 
     while ( simulation_running ){
@@ -127,6 +133,8 @@ int main(int argc, char* argv[]){
 
         FillCircle(surface, shadow_circle, COLOR_WHITE);
         FillRays_HD(surface, rays, COLOR_GRAY, shadow_circle);
+
+        move_shadow_circle(&shadow_circle, &object_speed);
 
         SDL_UpdateWindowSurface(window);
         SDL_Delay(10);
